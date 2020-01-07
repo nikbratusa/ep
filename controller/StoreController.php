@@ -26,7 +26,7 @@ class StoreController {
     public static function odjava() {
         session_destroy ();
         session_start();
-        ViewHelper::render("view/prijava.php");
+        ViewHelper::redirect(BASE_URL . "prijava");
     }
     
     public static function prijavaPreveri() {
@@ -52,7 +52,7 @@ class StoreController {
             $_SESSION["geslo"] = $admin["geslo"];
             $_SESSION["id"] = $admin["id"];
             $_SESSION["vloga"] = "administrator";
-            ViewHelper::render("view/store-index.php", $vars);
+            ViewHelper::redirect(BASE_URL . "shoe", $vars);
         }
         if($poglejProdajalec){
             $prodajalec = ProdajalecDB::getLogin($email, $geslo);
@@ -72,7 +72,7 @@ class StoreController {
                 $_SESSION["id"] = $prodajalec["id"];
                 $_SESSION["status"] = $prodajalec["status"];
                 $_SESSION["vloga"] = "prodajalec";
-                ViewHelper::render("view/store-index.php", $vars);
+                ViewHelper::redirect(BASE_URL . "shoe", $vars);
             } 
         }
         if($poglejStranka){
@@ -95,11 +95,11 @@ class StoreController {
                 $_SESSION["id"] = $stranka["id"];
                 $_SESSION["status"] = $stranka["status"];
                 $_SESSION["vloga"] = "stranka";
-                ViewHelper::render("view/store-index.php", $vars);
+                ViewHelper::redirect(BASE_URL . "store", $vars);
             } 
         }
         if($napaka){
-            ViewHelper::render("view/prijava.php");
+            ViewHelper::redirect(BASE_URL . "prijava");
         }    
     }
     
@@ -141,7 +141,7 @@ class StoreController {
                  "total" => Cart::total()
                  ];
 
-                 ViewHelper::render("view/store-index.php", $vars);
+                 ViewHelper::redirect(BASE_URL . "shoe", $vars);
             }
         }
         elseif($vloga == 'prodajalec'){
@@ -158,7 +158,28 @@ class StoreController {
                  "total" => Cart::total()
                  ];
 
-                 ViewHelper::render("view/store-index.php", $vars);
+                 ViewHelper::redirect(BASE_URL . "shoe", $vars);
+            }
+        }
+        elseif($vloga == 'stranka'){
+            if ($id !== null) {
+                $naslov = $_POST['naslovForm'];
+                $telefon = $_POST['telefonForm'];
+                $status = $_SESSION["status"];
+                StrankaDB::update($id, $ime, $priimek, $email, $naslov, $telefon, $geslo, $status);
+                 $_SESSION["ime"] = $ime;
+                 $_SESSION["priimek"] = $priimek;
+                 $_SESSION["email"] = $email;
+                 $_SESSION["naslov"] = $naslov;
+                 $_SESSION["telefon"] = $telefon;
+                 $_SESSION["geslo"] = $geslo;
+                 $vars = [
+                 "shoes" => ShoeDB::getAll(),
+                 "cart" => Cart::getAll(),
+                 "total" => Cart::total()
+                 ];
+
+                 ViewHelper::redirect(BASE_URL . "shoe", $vars);
             }
         }
        
@@ -212,7 +233,7 @@ class StoreController {
         ViewHelper::redirect($url);
     }
     
-     public static function showAddFormProdajalec($values = ["ime" => "", "priimek" => "",
+    public static function showAddFormProdajalec($values = ["ime" => "", "priimek" => "",
         "email" => "", "geslo" => ""]) {
         ViewHelper::render("view/prodajalci-add.php", $values);
     }
@@ -227,8 +248,78 @@ class StoreController {
             ProdajalecDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"], $_POST["geslo"]);
             ViewHelper::redirect(BASE_URL . "prodajalci");
         } else {
+            self::showAddFormProdajalec($_POST);
+        }
+    }
+    
+    public static function stranke() {
+        if (isset($_GET["id"])) {
+            ViewHelper::render("view/stranke-detail.php", ["stranke" => StrankaDB::get($_GET["id"])]);
+        } else {
+            ViewHelper::render("view/stranke-list.php", ["stranke" => StrankaDB::getAll()]);
+        }
+    }
+    public static function editStranka() {
+        $validData = isset($_POST["ime"]) && !empty($_POST["ime"]) &&
+                isset($_POST["priimek"]) && !empty($_POST["priimek"]) &&
+                isset($_POST["email"]) && !empty($_POST["email"]) &&
+                isset($_POST["naslov"]) && !empty($_POST["naslov"]) &&
+                isset($_POST["telefon"]) && !empty($_POST["telefon"]) &&
+                isset($_POST["geslo"]) && !empty($_POST["geslo"]) &&
+                isset($_POST["id"]) && !empty($_POST["id"]) &&
+                isset($_POST["status"]) && !empty($_POST["status"]);
+
+        if ($validData) {
+            StrankaDB::update($_POST["id"], $_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], $_POST["geslo"], $_POST["status"]);
+            ViewHelper::redirect(BASE_URL . "stranke?id=" . $_POST["id"]);
+        } else {
+            self::showEditFormStranka($_POST);
+        }
+    }
+    
+    public static function showEditFormStranka($stranka = []) {
+        if (empty($stranka)) {
+            $stranka = StrankaDB::get($_GET["id"]);
+        }
+
+        ViewHelper::render("view/stranke-edit.php", ["stranka" => $stranka]);
+    }
+    
+    public static function showAddFormStranka($values = ["ime" => "", "priimek" => "",
+        "email" => "", "naslov" => "", "telefon" => "", "geslo" => ""]) {
+        ViewHelper::render("view/stranke-add.php", $values);
+    }
+    
+    public static function addStranka() {
+        $validData = isset($_POST["ime"]) && !empty($_POST["ime"]) &&
+                isset($_POST["priimek"]) && !empty($_POST["priimek"]) &&
+                isset($_POST["email"]) && !empty($_POST["email"]) &&
+                isset($_POST["naslov"]) && !empty($_POST["naslov"]) &&
+                isset($_POST["telefon"]) && !empty($_POST["telefon"]) &&
+                isset($_POST["geslo"]) && !empty($_POST["geslo"]);
+
+        if ($validData) {
+            StrankaDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], $_POST["geslo"]);
+            ViewHelper::redirect(BASE_URL . "stranke");
+        } else {
             self::showAddForm($_POST);
         }
+    }
+    public static function deleteStranka() {
+        $validDelete = isset($_POST["delete_confirmation"]) && isset($_POST["id"]) && !empty($_POST["id"]);
+
+        if ($validDelete) {
+            StrankaDB::delete($_POST["id"]);
+            $url = BASE_URL . "stranke";
+        } else {
+            if (isset($_POST["id"])) {
+                $url = BASE_URL . "stranke/edit?id=" . $_POST["id"];
+            } else {
+                $url = BASE_URL . "stranke";
+            }
+        }
+
+        ViewHelper::redirect($url);
     }
     
 

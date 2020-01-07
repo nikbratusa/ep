@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Narocilo</title>
+<title>Add stranka</title>
 
-<h1>Narocilo</h1>
+<h1>Add stranka</h1>
 
 <p>[
 <a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
@@ -35,17 +37,12 @@
 <?php } ?>
 ]</p>
 
-<h2>Zakjuček nakupa</h2>
-<ul>
-
-    <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
-    <?php endforeach; ?>
-   
-</ul>
-
-<p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
-
-<form action="<?= BASE_URL . "store/narociloPotrdi" ?>" method="post">
-    <p><button>Potrdi naročilo</button></p>
+<form action="<?= BASE_URL . "stranke/add" ?>" method="post">
+    <p><label>Ime: <input type="text" name="ime" value="<?= $ime ?>" autofocus /></label></p>
+    <p><label>Priimek: <input type="text" name="priimek" value="<?= $priimek ?>" /></label></p>
+    <p><label>Email: <input type="email" name="email" value="<?= $email ?>" /></label></p>
+    <p><label>Naslov: <input type="text" name="naslov" value="<?= $naslov ?>" /></label></p>
+    <p><label>Telefon: <input type="text" name="telefon" value="<?= $telefon ?>" /></label></p>
+    <p><label>Geslo: <input type="password" name="geslo" value="<?= $geslo ?>" /></label></p>
+    <p><button>Dodaj</button></p>
 </form>

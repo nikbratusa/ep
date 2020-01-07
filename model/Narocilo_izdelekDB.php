@@ -24,6 +24,16 @@ class Narocilo_izdelekDB {
 
         return $statement->fetchAll();
     }
+    
+    public static function getAllForIdNarocila($id_narocila) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT id, id_narocila, id_izdelek, kolicina, cena FROM narocilo_izdelek WHERE id_narocila = :id_narocila");
+        $statement->bindParam(":id_narocila", $id_narocila);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 
     public static function get($id) {
         $db = DBInit::getInstance();

@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Narocilo</title>
+<title>Vsa Narocila</title>
 
-<h1>Narocilo</h1>
+<h1>Vsa Narocila</h1>
 
 <p>[
 <a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
@@ -27,7 +29,7 @@
     <a href="<?= BASE_URL . "prodajalci" ?>">Prodajalci</a>  |
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>
+    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a> |
     <a href="<?= BASE_URL . "store/narocila" ?>">Vsa narocila</a> |
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka" ) { ?>
@@ -35,17 +37,12 @@
 <?php } ?>
 ]</p>
 
-<h2>Zakjuček nakupa</h2>
 <ul>
-
-    <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
+ 
+    <?php foreach ($narocila as $n): ?>
+        <a href="<?= BASE_URL . "store/narocila?id=" . $n["id"] ?>">
+            <li>Številka naročila: <?= $n["id"] ?>, Vsota: <?= $n["vsota"] ?>EUR, Email: <?= $n["email"]?>, Status: <?= $n["status"] ?></li>
     <?php endforeach; ?>
-   
+    
 </ul>
 
-<p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
-
-<form action="<?= BASE_URL . "store/narociloPotrdi" ?>" method="post">
-    <p><button>Potrdi naročilo</button></p>
-</form>

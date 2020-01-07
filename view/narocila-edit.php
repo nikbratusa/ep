@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Narocilo</title>
+<title>Edit narocilo</title>
 
-<h1>Narocilo</h1>
+<h1>Edit narocilo</h1>
 
 <p>[
 <a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
@@ -35,17 +37,16 @@
 <?php } ?>
 ]</p>
 
-<h2>Zakjuček nakupa</h2>
-<ul>
-
-    <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
-    <?php endforeach; ?>
-   
-</ul>
-
-<p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
-
-<form action="<?= BASE_URL . "store/narociloPotrdi" ?>" method="post">
-    <p><button>Potrdi naročilo</button></p>
+<p>Številka naročila: <?= $narocilo["id"] ?>
+<form action="<?= BASE_URL . "store/narocila/edit" ?>" method="post">
+    <input type="hidden" name="id" value="<?= $narocilo["id"] ?>"/>
+    <input type="hidden" name="email" value="<?= $narocilo["email"] ?>"/>
+    <input type="hidden" name="vsota" value="<?= $narocilo["vsota"] ?>"/>
+    <input type="radio" name="status" value="caka" class="radio" <?php if (isset($narocilo["status"]) && $narocilo["status"] == 'caka'): ?>checked='checked'<?php endif; ?> /> Caka
+    <input type="radio" name="status" value="potrjeno" class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] == 'potrjeno'): ?>checked='checked'<?php endif; ?> /> Potrjeno
+    <input type="radio" name="status" value="preklicano"  class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] ==  'preklicano'): ?>checked='checked'<?php endif; ?> /> Preklicano
+    <p><button>Edit narocilo</button></p>
 </form>
+
+
+

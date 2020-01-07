@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Narocilo</title>
+<title>Stranka detail</title>
 
-<h1>Narocilo</h1>
+<h1>Details of: <?= $stranke["ime"] ?></h1>
 
 <p>[
 <a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
@@ -35,17 +37,13 @@
 <?php } ?>
 ]</p>
 
-<h2>Zakjuček nakupa</h2>
 <ul>
-
-    <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
-    <?php endforeach; ?>
-   
+    <li>Ime: <b><?= $stranke["ime"] ?></b></li>
+    <li>Priimek: <b><?= $stranke["priimek"] ?></b></li>
+    <li>Email: <b><?= $stranke["email"] ?></b></li>
+    <li>Naslov: <b><?= $stranke["naslov"] ?></b></li>
+    <li>Telefon: <b><?= $stranke["telefon"] ?></b></li>
 </ul>
 
-<p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
-
-<form action="<?= BASE_URL . "store/narociloPotrdi" ?>" method="post">
-    <p><button>Potrdi naročilo</button></p>
-</form>
+<p>[ <a href="<?= BASE_URL . "stranke/edit?id=" . $_GET["id"] ?>">Edit</a> |
+<a href="<?= BASE_URL . "stranke" ?>">Vse stranke</a> ]</p>

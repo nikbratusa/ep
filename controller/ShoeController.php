@@ -35,7 +35,7 @@ class ShoeController {
         }
     }
 
-    public static function showEditForm($book = []) {
+    public static function showEditForm($shoe = []) {
         if (empty($shoe)) {
             $shoe = shoeDB::get($_GET["id"]);
         }
@@ -102,7 +102,7 @@ class ShoeController {
             "total" => Cart::total()
         ];
 
-        ViewHelper::render("view/store-index.php", $vars);
+        ViewHelper::redirect(BASE_URL . "store", $vars);
         
       
     }
@@ -114,7 +114,46 @@ class ShoeController {
             "narocila" => NarociloDB::getAllForEmail($_SESSION["email"])
         ];
         ViewHelper::render("view/narocila.php", $vars);
-      
+        
+    }
+    
+     public static function vsaNarocila() {
+        if (isset($_GET["id"])) {
+            $narocila  = NarociloDB::get($_GET["id"]);
+            $izdelki = Narocilo_izdelekDB::getAllForIdNarocila($_GET["id"]);
+            $ids = [];
+            foreach ($izdelki as $i){
+                array_push($ids,$i["id_izdelek"]);
+            }
+            ViewHelper::render("view/narocila-detail.php", ["narocila" => NarociloDB::get($_GET["id"]),
+                                                            "izdelki" => Narocilo_izdelekDB::getAllForIdNarocila($_GET["id"]),
+                                                            "shoes" => ShoeDB::getForIds($ids)]);
+        } else {
+            ViewHelper::render("view/narocila-list.php", ["narocila" => NarociloDB::getAll()]);
+        }
+    }
+    
+    public static function showEditFormNarocilo($narocilo = []) {
+        if (empty($narocilo)) {
+            $narocilo = NarociloDB::get($_GET["id"]);
+        }
+
+        ViewHelper::render("view/narocila-edit.php", ["narocilo" => $narocilo]);
+    }
+
+    public static function editNarocilo() {
+        $validData = isset($_POST["id"]) && !empty($_POST["id"]) &&
+                isset($_POST["email"]) && !empty($_POST["email"]) &&
+                isset($_POST["vsota"]) && !empty($_POST["vsota"]) &&
+                isset($_POST["status"]) && !empty($_POST["status"]);
+            
+
+        if ($validData) {
+            NarociloDB::update($_POST["id"], $_POST["email"], $_POST["vsota"], $_POST["status"]);
+            ViewHelper::redirect(BASE_URL . "store/narocila?id=" . $_POST["id"]);
+        } else {
+            self::showEditFormNarocilo($_POST);
+        }
     }
 
 }

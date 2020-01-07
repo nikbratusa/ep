@@ -88,8 +88,8 @@ ALTER TABLE `prodajalec`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 
 INSERT INTO `stranka` (`id`, `ime`, `priimek`, `email`, `naslov`, `telefon`, `geslo`, `status`) VALUES
-(1, 'Mateja', 'Kupec', 'mateja@kupec-ep.si','Vojkova 7','0101023939', 'matejageslo', 'aktiviran'),
-(2, 'Sand', 'Kupec', 'sandi@kupec-ep.si','Prekorje 29', '2742482', 'sandigeslo', 'aktiviran');
+(1, 'Mateja', 'Kupec', 'mateja@stranka-ep.si','Vojkova 7','0101023939', 'matejageslo', 'aktiviran'),
+(2, 'Sand', 'Kupec', 'sandi@stranka-ep.si','Prekorje 29', '2742482', 'sandigeslo', 'aktiviran');
 
 ALTER TABLE `stranka`
   ADD PRIMARY KEY (`id`);

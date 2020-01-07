@@ -81,6 +81,26 @@ $urls = [
     "prodajalci/delete" => function () {
         StoreController::deleteProdajalec();
     },
+    "stranke" => function () {
+       StoreController::stranke();
+    },
+    "stranke/edit" => function () {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            StoreController::editStranka();
+        } else {
+            StoreController::showEditFormStranka();
+        }
+    },
+    "stranke/add" => function () {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            StoreController::addStranka();
+        } else {
+            StoreController::showAddFormStranka();
+        }
+    },
+    "stranke/delete" => function () {
+        StoreController::deleteStranka();
+    },        
     "store" => function () {
         StoreController::index();
     },
@@ -102,8 +122,18 @@ $urls = [
     "store/narocilaPregled" => function () {
        ShoeController::preglejNarocila();
     },
+    "store/narocila" => function () {
+       ShoeController::vsaNarocila();
+    },
+    "store/narocila/edit" => function () {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            ShoeController::editNarocilo();
+        } else {
+            ShoeController::showEditFormNarocilo();
+        }
+    },
     "" => function () {
-        ViewHelper::redirect(BASE_URL . "store");
+        ViewHelper::redirect(BASE_URL . "shoe");
     },
 ];
 

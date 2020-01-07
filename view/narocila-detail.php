@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Narocilo</title>
+<title>Narocilo detail</title>
 
-<h1>Narocilo</h1>
+<h1>Details of Narocilo <?= $narocila["id"] ?></h1>
 
 <p>[
 <a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
@@ -27,7 +29,7 @@
     <a href="<?= BASE_URL . "prodajalci" ?>">Prodajalci</a>  |
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>
+    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a> |
     <a href="<?= BASE_URL . "store/narocila" ?>">Vsa narocila</a> |
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka" ) { ?>
@@ -35,17 +37,18 @@
 <?php } ?>
 ]</p>
 
-<h2>Zakjuček nakupa</h2>
-<ul>
-
-    <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
-    <?php endforeach; ?>
-   
-</ul>
-
-<p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
-
-<form action="<?= BASE_URL . "store/narociloPotrdi" ?>" method="post">
-    <p><button>Potrdi naročilo</button></p>
-</form>
+<p>Številka naročila: <?= $narocila["id"] ?>, Vsota: <?= $narocila["vsota"] ?>EUR, Email: <?= $narocila["email"]?>, Status: <?= $narocila["status"] ?></p>
+<?php $number = COUNT($shoes);
+    if($number > 0)  {  
+        for($i=0; $i<$number; $i++){ ?>
+        <ul>
+            <li>Brand: <b><?= $shoes[$i]["brand"] ?></b></li>
+            <li>Name: <b><?= $shoes[$i]["name"] ?></b></li>
+            <li>Price: <b><?= $shoes[$i]["price"] ?> EUR</b></li>
+            <li>Size: <b><?= $shoes[$i]["size"] ?></b></li>
+            <li>Quantity: <b><?= $izdelki[$i]["kolicina"]?></b></li>
+        </ul>
+        <?php } ?>
+    <?php } ?>
+<p>[ <a href="<?= BASE_URL . "store/narocila/edit?id=" . $_GET["id"] ?>">Edit</a> |
+<a href="<?= BASE_URL . "shoe" ?>">Vsa narocila</a> ]</p>
