@@ -37,12 +37,34 @@
 <?php } ?>
 ]</p>
 
+<h2>Čakajoča</h2>
 <ul>
- 
-    <?php foreach ($narocila as $n): ?>
-        <a href="<?= BASE_URL . "store/narocila?id=" . $n["id"] ?>">
-            <li>Številka naročila: <?= $n["id"] ?>, Vsota: <?= $n["vsota"] ?>EUR, Email: <?= $n["email"]?>, Status: <?= $n["status"] ?></li>
-    <?php endforeach; ?>
-    
+    <?php foreach ($cakajoca as $c): ?>
+        <li><a href="<?= BASE_URL . "store/narocila?id=" . $c["id"] ?>">
+                Številka naročila: <?= $c["id"] ?>, Vsota: <?= $c["vsota"] ?>EUR, Email: <?= $c["email"]?>, Status: <?= $c["status"] ?></a></li>
+    <?php endforeach; ?>   
 </ul>
 
+<h2>Potrjena</h2>
+<ul>
+    <?php foreach ($potrjena as $p): ?>
+        <li><a href="<?= BASE_URL . "store/narocila?id=" . $p["id"] ?>">
+            Številka naročila: <?= $p["id"] ?>, Vsota: <?= $p["vsota"] ?>EUR, Email: <?= $p["email"]?>, Status: <?= $p["status"] ?></a></li>
+    <?php endforeach; ?>   
+</ul>
+
+<h2>Preklicana</h2>
+<ul>
+    <?php foreach ($preklicana as $pr): ?>
+        <li><a href="<?= BASE_URL . "store/narocila?id=" . $pr["id"] ?>">
+            Številka naročila: <?= $pr["id"] ?>, Vsota: <?= $pr["vsota"] ?>EUR, Email: <?= $pr["email"]?>, Status: <?= $pr["status"] ?></a></li>
+    <?php endforeach; ?>   
+</ul>
+
+<h2>Stornirana</h2>
+<ul>
+    <?php foreach ($stornirana as $s): ?>
+        <li><a href="<?= BASE_URL . "store/narocila?id=" . $s["id"] ?>">
+            Številka naročila: <?= $s["id"] ?>, Vsota: <?= $s["vsota"] ?>EUR, Email: <?= $s["email"]?>, Status: <?= $s["status"] ?></a></li>
+    <?php endforeach; ?>   
+</ul>

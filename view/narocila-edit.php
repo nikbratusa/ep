@@ -43,8 +43,11 @@
     <input type="hidden" name="email" value="<?= $narocilo["email"] ?>"/>
     <input type="hidden" name="vsota" value="<?= $narocilo["vsota"] ?>"/>
     <input type="radio" name="status" value="caka" class="radio" <?php if (isset($narocilo["status"]) && $narocilo["status"] == 'caka'): ?>checked='checked'<?php endif; ?> /> Caka
-    <input type="radio" name="status" value="potrjeno" class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] == 'potrjeno'): ?>checked='checked'<?php endif; ?> /> Potrjeno
-    <input type="radio" name="status" value="preklicano"  class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] ==  'preklicano'): ?>checked='checked'<?php endif; ?> /> Preklicano
+    <input type="radio" name="status" value="potrjeno" class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] == 'potrjeno'): ?>checked='checked'<?php endif; ?> /> Potrdi
+    <input type="radio" name="status" value="preklicano"  class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] ==  'preklicano'): ?>checked='checked'<?php endif; ?> /> Preklici
+    <?php if(isset($narocilo["status"]) and $narocilo["status"] == "potrjeno" ) { ?>
+    <input type="radio" name="status" value="stornirano"  class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] ==  'stornirano'): ?>checked='checked'<?php endif; ?> /> Storniraj
+    <?php } ?>
     <p><button>Edit narocilo</button></p>
 </form>
 

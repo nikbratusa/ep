@@ -69,6 +69,7 @@ class ProdajalecDB {
         $statement->bindParam(":email", $email);
         $statement->bindParam(":geslo", $geslo);
         $statement->execute();
+        return $db->lastInsertId();
     }
 
     public static function update($id, $ime, $priimek, $email, $geslo, $status) {

@@ -129,7 +129,10 @@ class ShoeController {
                                                             "izdelki" => Narocilo_izdelekDB::getAllForIdNarocila($_GET["id"]),
                                                             "shoes" => ShoeDB::getForIds($ids)]);
         } else {
-            ViewHelper::render("view/narocila-list.php", ["narocila" => NarociloDB::getAll()]);
+            ViewHelper::render("view/narocila-list.php", ["cakajoca" => NarociloDB::getAllCakajoca(),
+                                                          "potrjena" => NarociloDB::getAllPotrjena(),
+                                                          "preklicana" => NarociloDB::getAllPreklicana(),
+                                                          "stornirana" => NarociloDB::getAllStornirana()]);
         }
     }
     

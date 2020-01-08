@@ -51,4 +51,4 @@
         <?php } ?>
     <?php } ?>
 <p>[ <a href="<?= BASE_URL . "store/narocila/edit?id=" . $_GET["id"] ?>">Edit</a> |
-<a href="<?= BASE_URL . "shoe" ?>">Vsa narocila</a> ]</p>
+<a href="<?= BASE_URL . "store/narocila" ?>">Vsa narocila</a> ]</p>

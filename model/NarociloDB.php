@@ -24,6 +24,39 @@ class NarociloDB {
 
         return $statement->fetchAll();
     }
+    
+    public static function getAllPotrjena() {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT id, email, vsota, status FROM narocilo WHERE status = 'potrjeno'");
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    public static function getAllCakajoca() {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT id, email, vsota, status FROM narocilo WHERE status = 'caka'");
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    public static function getAllPreklicana() {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT id, email, vsota, status FROM narocilo WHERE status = 'preklicano'");
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    public static function getAllStornirana() {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT id, email, vsota, status FROM narocilo WHERE status = 'stornirano'");
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 
     public static function get($id) {
         $db = DBInit::getInstance();

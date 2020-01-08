@@ -112,7 +112,32 @@ class StoreController {
         $priimek = $_POST['priimekForm'];
         $email = $_POST['emailForm'];
         $geslo = $_POST['gesloForm'];
+        $vloga = $_POST['vlogaForm'];
         
+        if($vloga == 'prodajalec'){
+            $id = ProdajalecDB::insert($ime, $priimek, $email, $geslo);
+            $_SESSION["ime"] = $ime;
+            $_SESSION["priimek"] = $priimek;
+            $_SESSION["email"] = $email;
+            $_SESSION["geslo"] = $geslo;
+            $_SESSION["id"] = $id;
+            $_SESSION["vloga"] = "prodajalec";
+            ViewHelper::redirect(BASE_URL . "shoe", $vars);
+        }
+        elseif($vloga == 'stranka'){
+            $naslov = $_POST['naslovForm'];
+            $telefon = $_POST['telefonForm'];
+            $id = StrankaDB::insert($ime, $priimek, $email, $naslov, $telefon, $geslo);
+            $_SESSION["ime"] = $ime;
+            $_SESSION["priimek"] = $priimek;
+            $_SESSION["email"] = $email;
+            $_SESSION["naslov"] = $naslov;
+            $_SESSION["telefon"] = $telefon;
+            $_SESSION["geslo"] = $geslo;
+            $_SESSION["id"] = $id;
+            $_SESSION["vloga"] = "stranka";
+            ViewHelper::redirect(BASE_URL . "store", $vars);
+        }
         
     }
     public static function mojProfil() {

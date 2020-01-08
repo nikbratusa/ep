@@ -71,6 +71,7 @@ class StrankaDB {
         $statement->bindParam(":telefon", $telefon);
         $statement->bindParam(":geslo", $geslo);
         $statement->execute();
+        return $db->lastInsertId();
     }
 
     public static function update($id, $ime, $priimek, $email, $naslov, $telefon, $geslo, $status) {

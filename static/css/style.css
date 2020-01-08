@@ -30,3 +30,7 @@
     background-color: #E8E8E8;
     min-width: 30%;
 }
+
+#div1.hide {
+  display: none;
+}
