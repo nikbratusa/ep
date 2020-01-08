@@ -2,38 +2,47 @@
 
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Edit narocilo</title>
+<title>Uredi naročilo</title>
 
-<h1>Edit narocilo</h1>
+<h1>Uredi naročilo</h1>
 
 <p>[
-<a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
-<?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "shoe/add" ?>">Add new</a>  |
-<?php } ?>
-<?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka") { ?>
-    <a href="<?= BASE_URL . "store" ?>">Buy shoes</a> |
-<?php } ?>
-<?php if(!isset($_SESSION["ime"])) { ?>
-    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a> | |
-    <?php } else {?>
-    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a> ||
-    <?php } ?>
-<?php if(!isset($_SESSION["vloga"])) { ?>
-    <a href="<?= BASE_URL . "registracija" ?>">Registracija</a> |
-<?php } ?>
-<?php if(isset($_SESSION["vloga"])) { ?>
-    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
-<?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "administrator" ) { ?>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
     <a href="<?= BASE_URL . "prodajalci" ?>">Prodajalci</a>  |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "shoe/add" ?>">Dodaj čevlje</a>  |
     <a href="<?= BASE_URL . "store/narocila" ?>">Vsa narocila</a> |
+    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>  |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka" ) { ?>
-    <a href="<?= BASE_URL . "store/narocilaPregled" ?>">Moja narocila</a>  |
+    <a href="<?= BASE_URL . "store" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "store/narocilaPregled" ?>">Moja naročila</a> |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
+<?php } ?>
+<?php if(!isset($_SESSION["vloga"])) { ?>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a> |
+    <a href="<?= BASE_URL . "registracija" ?>">Registracija</a>
 <?php } ?>
 ]</p>
 
@@ -48,7 +57,7 @@
     <?php if(isset($narocilo["status"]) and $narocilo["status"] == "potrjeno" ) { ?>
     <input type="radio" name="status" value="stornirano"  class="radio" <?php if (isset($narocilo["status"]) && $narocilo['status'] ==  'stornirano'): ?>checked='checked'<?php endif; ?> /> Storniraj
     <?php } ?>
-    <p><button>Edit narocilo</button></p>
+    <p><button>Uredi naročilo</button></p>
 </form>
 
 

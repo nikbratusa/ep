@@ -2,38 +2,47 @@
 
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>ShoeStore</title>
+<title>Trgovina s čevlji</title>
 
-<h1>ShoeStore</h1>
+<h1>Seznam vseh čevljev</h1>
 
 <p>[
-<a href="<?= BASE_URL . "shoe" ?>">All shoes</a> |
-<?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "shoe/add" ?>">Add new</a>  |
-<?php } ?>
-<?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka") { ?>
-    <a href="<?= BASE_URL . "store" ?>">Buy shoes</a> |
-<?php } ?>
-<?php if(!isset($_SESSION["ime"])) { ?>
-    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a> | |
-    <?php } else {?>
-    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a> ||
-    <?php } ?>
-<?php if(!isset($_SESSION["vloga"])) { ?>
-    <a href="<?= BASE_URL . "registracija" ?>">Registracija</a> |
-<?php } ?>
-<?php if(isset($_SESSION["vloga"])) { ?>
-    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
-<?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "administrator" ) { ?>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
     <a href="<?= BASE_URL . "prodajalci" ?>">Prodajalci</a>  |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>
-    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "shoe/add" ?>">Dodaj čevlje</a>  |
     <a href="<?= BASE_URL . "store/narocila" ?>">Vsa narocila</a> |
+    <a href="<?= BASE_URL . "stranke" ?>">Stranke</a>  |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
 <?php } ?>
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "stranka" ) { ?>
-    <a href="<?= BASE_URL . "store/narocilaPregled" ?>">Moja narocila</a>  |
+    <a href="<?= BASE_URL . "store" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "store/narocilaPregled" ?>">Moja naročila</a> |
+    <a href="<?= BASE_URL . "mojProfil" ?>">Moj Profil</a>  |
+    <?php if(!isset($_SESSION["ime"])) { ?>
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a>
+    <?php } else {?>
+    <a href="<?= BASE_URL . "odjava" ?>">Odjava</a>
+    <?php } ?>
+<?php } ?>
+<?php if(!isset($_SESSION["vloga"])) { ?>
+    <a href="<?= BASE_URL . "shoe" ?>">Seznam čevljev</a> |
+    <a href="<?= BASE_URL . "prijava" ?>">Prijava</a> |
+    <a href="<?= BASE_URL . "registracija" ?>">Registracija</a>
 <?php } ?>
 ]</p>
 
@@ -48,7 +57,7 @@
                 <p><?= $shoe["name"] ?></p> 
                 <p><?= $shoe["size"] ?></p>
                 <p><?= number_format($shoe["price"], 2) ?> EUR<br/>
-                <button>Add to cart</button>
+                <button>Dodaj v košarico</button>
             </form> 
         </div>
 
@@ -59,25 +68,25 @@
 <?php if (!empty($cart)): ?>
 
     <div id="cart">
-        <h3>Shopping cart</h3>
+        <h3>Košarica</h3>
         <?php foreach ($cart as $shoe): ?>
 
             <form action="<?= BASE_URL . "store/update-cart" ?>" method="post">
                 <input type="hidden" name="id" value="<?= $shoe["id"] ?>" />
                 <input type="number" name="quantity" value="<?= $shoe["quantity"] ?>" class="update-cart" />
                 &times; <?= $shoe["name"] ?> 
-                <button>Update</button> 
+                <button>Osveži</button> 
             </form>
 
         <?php endforeach; ?>
 
-        <p>Total: <b><?= number_format($total, 2) ?> EUR</b></p>
+        <p>Znesek: <b><?= number_format($total, 2) ?> EUR</b></p>
 
         <form action="<?= BASE_URL . "store/purge-cart" ?>" method="post">
-            <p><button>Purge cart</button></p>
+            <p><button>Izprazni voziček</button></p>
         </form>
         <form action="<?= BASE_URL . "store/narocilo" ?>" method="post">
-            <p><button>Naroci</button></p>
+            <p><button>Naroči</button></p>
         </form>
     </div>    
 

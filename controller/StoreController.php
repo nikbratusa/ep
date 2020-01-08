@@ -114,6 +114,12 @@ class StoreController {
         $geslo = $_POST['gesloForm'];
         $vloga = $_POST['vlogaForm'];
         
+        $vars = [
+                    "shoes" => ShoeDB::getAll(),
+                    "cart" => Cart::getAll(),
+                    "total" => Cart::total()
+                ];
+        
         if($vloga == 'prodajalec'){
             $id = ProdajalecDB::insert($ime, $priimek, $email, $geslo);
             $_SESSION["ime"] = $ime;
@@ -204,7 +210,7 @@ class StoreController {
                  "total" => Cart::total()
                  ];
 
-                 ViewHelper::redirect(BASE_URL . "shoe", $vars);
+                 ViewHelper::redirect(BASE_URL . "store", $vars);
             }
         }
        
