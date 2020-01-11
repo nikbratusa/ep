@@ -1,8 +1,9 @@
 <?php
 
-require_once "DBInit.php";
 
-class ShoeDB {
+require_once 'AbstractDB.php';
+
+class ShoeDB extends AbstractDB {
 
     public static function getForIds($ids) {
         $db = DBInit::getInstance();
@@ -73,16 +74,16 @@ class ShoeDB {
         $statement = $db->prepare("DELETE FROM shoe WHERE id = :id");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
-    }    
-
-    public static function search($query) {
-        $db = DBInit::getInstance();
-
-        $statement = $db->prepare("SELECT id, brand, name, price, size FROM shoe 
-            WHERE name LIKE :query OR brand LIKE :query");
-        $statement->bindValue(":query", '%' . $query . '%');
-        $statement->execute();
-
-        return $statement->fetchAll();
-    }    
+    }  
+    
+    public static function getShoe(array $id) {
+        return parent::query("SELECT id, brand, name, price, size"
+                        . " FROM shoe"
+                        . " WHERE id = :id", $id);
+    }
+    public static function getAllShoes() {
+        return parent::query("SELECT id, brand, name, price, size"
+                        . " FROM shoe"
+                        . " ORDER BY id ASC");
+    }
 }
