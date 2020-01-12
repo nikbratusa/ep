@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>Podrobnosti prodajalca</title>
 
-<h1>Podrobnosti prodajalca: <?= $prodajalci["ime"] ?></h1>
+<h1>Podrobnosti prodajalca: <?= htmlspecialchars($prodajalci["ime"]) ?></h1>
 
 <p>[
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "administrator" ) { ?>
@@ -47,9 +47,9 @@
 ]</p>
 
 <ul>
-    <li>Ime: <b><?= $prodajalci["ime"] ?></b></li>
-    <li>Priimek: <b><?= $prodajalci["priimek"] ?></b></li>
-    <li>Email: <b><?= $prodajalci["email"] ?></b></li>
+    <li>Ime: <b><?= htmlspecialchars($prodajalci["ime"]) ?></b></li>
+    <li>Priimek: <b><?= htmlspecialchars($prodajalci["priimek"]) ?></b></li>
+    <li>Email: <b><?= htmlspecialchars($prodajalci["email"]) ?></b></li>
 </ul>
 
 <button><a href="<?= BASE_URL . "prodajalci/edit?id=" . $_GET["id"] ?>">Uredi</a></button>

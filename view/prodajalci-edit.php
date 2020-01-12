@@ -46,11 +46,11 @@
 <?php } ?>
 ]</p>
 <form action="<?= BASE_URL . "prodajalci/edit" ?>" method="post">
-    <input type="hidden" name="id" value="<?= $prodajalec["id"] ?>"  />
-    <p><label>Ime: <input type="text" name="ime" value="<?= $prodajalec["ime"] ?>" required autofocus /></label></p>
-    <p><label>Priimek: <input type="text" name="priimek" value="<?= $prodajalec["priimek"] ?>"required /></label></p>
-    <p><label>Email: <input type="email" name="email" value="<?= $prodajalec["email"] ?>" required /></label></p>
-    <p><label>Geslo: <input type="password" name="geslo" value="<?= $prodajalec["geslo"] ?>" required /></label></p>
+    <input type="hidden" name="id" value="<?= htmlspecialchars($prodajalec["id"]) ?>"  />
+    <p><label>Ime: <input type="text" pattern="[A-Za-zčćžš]+" oninput="setCustomValidity('')" name="ime" value="<?= htmlspecialchars($prodajalec["ime"]) ?>" required autofocus /></label></p>
+    <p><label>Priimek: <input type="text" pattern="[A-Za-zčćžš]+" oninput="setCustomValidity('')" name="priimek" value="<?= htmlspecialchars($prodajalec["priimek"]) ?>"required /></label></p>
+    <p><label>Email: <input type="email" name="email" value="<?= htmlspecialchars($prodajalec["email"]) ?>" required /></label></p>
+    <p><label>Geslo: <input type="password" name="geslo" required /></label></p>
     <input type="radio" name="status" value="aktiviran" class="radio" <?php if (isset($prodajalec["status"]) && $prodajalec["status"] == 'aktiviran'): ?>checked='checked'<?php endif; ?> /> Aktiviran
     <input type="radio" name="status" value="neaktiviran" class="radio" <?php if (isset($prodajalec["status"]) && $prodajalec['status'] == 'neaktiviran'): ?>checked='checked'<?php endif; ?> /> Neaktiviran
     
@@ -63,3 +63,14 @@
     <button type="submit" class="important">Izbriši prodajalca</button>
 </form>
 
+<script type="text/javascript">
+    var ime = document.getElementsByName('ime')[0];
+    var priimek = document.getElementsByName('priimek')[0];
+    
+    ime.oninvalid = function(event) {
+        event.target.setCustomValidity('Ime lahko vsebuje samo male/velike črke!');
+    }
+    priimek.oninvalid = function(event) {
+        event.target.setCustomValidity('Priimek lahko vsebuje samo male/velike črke!');
+    }
+</script>

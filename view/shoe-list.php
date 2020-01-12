@@ -49,8 +49,8 @@
 <ul>
 
     <?php foreach ($shoes as $shoe): ?>
-        <li><a href="<?= BASE_URL . "shoe?id=" . $shoe["id"] ?>"><?= $shoe["brand"] ?>: 
-        	<?= $shoe["name"] ?> (<?= $shoe["size"] ?>)</a></li>
+        <li><a href="<?= BASE_URL . "shoe?id=" . $shoe["id"] ?>"><?= htmlspecialchars($shoe["brand"]) ?>: 
+        	<?= htmlspecialchars($shoe["name"]) ?> (<?= htmlspecialchars($shoe["size"]) ?>)</a></li>
     <?php endforeach; ?>
 
 </ul>

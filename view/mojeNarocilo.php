@@ -48,7 +48,7 @@
 <ul>
 
     <?php foreach ($cart as $shoe): ?>
-        <li>Znamka:<?= $shoe["brand"] ?>, Ime:<?= $shoe["name"] ?>, Številka: <?= $shoe["size"] ?>, Količina: <?= $shoe["quantity"] ?>, Cena: <?= $shoe["quantity"] * $shoe["price"] ?></a></li>
+        <li>Znamka:<?= htmlspecialchars($shoe["brand"]) ?>, Ime:<?= htmlspecialchars($shoe["name"]) ?>, Številka: <?= htmlspecialchars($shoe["size"]) ?>, Količina: <?= htmlspecialchars($shoe["quantity"]) ?>, Cena: <?= htmlspecialchars($shoe["quantity"] * $shoe["price"]) ?></a></li>
     <?php endforeach; ?>
    
 </ul>

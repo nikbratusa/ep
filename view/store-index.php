@@ -53,10 +53,10 @@
         <div class="shoe">
             <form action="<?= BASE_URL . "store/add-to-cart" ?>" method="post" />
                 <input type="hidden" name="id" value="<?= $shoe["id"] ?>" />
-                <p><?= $shoe["brand"] ?></p>
-                <p><?= $shoe["name"] ?></p> 
-                <p><?= $shoe["size"] ?></p>
-                <p><?= number_format($shoe["price"], 2) ?> EUR<br/>
+                <p><?= htmlspecialchars($shoe["brand"]) ?></p>
+                <p><?= htmlspecialchars($shoe["name"]) ?></p> 
+                <p><?= htmlspecialchars($shoe["size"]) ?></p>
+                <p><?= number_format(htmlspecialchars($shoe["price"]), 2) ?> EUR<br/>
                 <button>Dodaj v košarico</button>
             </form> 
         </div>

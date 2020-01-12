@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>Podrobnosti čevljev</title>
 
-<h1>Podrobnosti <?= $shoe["name"] ?></h1>
+<h1>Podrobnosti <?= htmlspecialchars($shoe["name"]) ?></h1>
 
 <p>[
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "administrator" ) { ?>
@@ -47,10 +47,10 @@
 ]</p>
 
 <ul>
-    <li>Znamka: <b><?= $shoe["brand"] ?></b></li>
-    <li>Ime: <b><?= $shoe["name"] ?></b></li>
-    <li>Cena: <b><?= $shoe["price"] ?> EUR</b></li>
-    <li>Velikost: <b><?= $shoe["size"] ?></b></li>
+    <li>Znamka: <b><?= htmlspecialchars($shoe["brand"]) ?></b></li>
+    <li>Ime: <b><?= htmlspecialchars($shoe["name"]) ?></b></li>
+    <li>Cena: <b><?= htmlspecialchars($shoe["price"]) ?> EUR</b></li>
+    <li>Velikost: <b><?= htmlspecialchars($shoe["size"]) ?></b></li>
 </ul>
 
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "prodajalec" ) { ?>

@@ -51,12 +51,12 @@
    <form action="<?= BASE_URL . "registracijaUstvari" ?>" method="post">
         <p><label>Prodajalec: <input type="radio" id="prod" name="vlogaForm" value="prodajalec" onclick="hide();" checked='checked'/> </label><p>
         <p><label>Stranka: <input type="radio" id="stranka" name="vlogaForm" value="stranka" onclick="show();"/> </label><p>
-        <p><label>Ime: <input type="text" name="imeForm" required/></label></p>
-        <p><label>Priimek: <input type="text" name="priimekForm" required/></label></p>
+        <p><label>Ime: <input type="text" name="imeForm" pattern="[A-Za-zčćžš]+" oninput="setCustomValidity('')" required/></label></p>
+        <p><label>Priimek: <input type="text" name="priimekForm" pattern="[A-Za-zčćžš]+" oninput="setCustomValidity('')" required/></label></p>
         <p><label>Email: <input type="email" name="emailForm" required/></label></p>
         <div id="div1" class="hide">
-            <p><label>Naslov: <input type="text" id="naslov" name="naslovForm" /></label></p>
-            <p><label>Telefon: <input type="text" id="telefon" name="telefonForm" /></label></p>
+            <p><label>Naslov: <input type="text" id="naslov" oninput="setCustomValidity('')" pattern="[A-Za-z0-9čćžš\s]+" name="naslovForm" /></label></p> 
+            <p><label>Telefon: <input type="text" id="telefon" name="telefonForm" oninput="setCustomValidity('')" pattern="[0-9]{9}" /></label></p>
         </div>
         <p><label>Geslo: <input type="password" name="gesloForm" required/></label></p>
         <p><input type="submit" value="Registracija"></p>
@@ -80,4 +80,22 @@
             $("#naslov").prop("required", true);
             $("#telefon").prop("required", true);
     });
+    
+    var ime = document.getElementsByName('imeForm')[0];
+    var priimek = document.getElementsByName('priimekForm')[0];
+    var naslov = document.getElementsByName('naslovForm')[0];
+    var telefon = document.getElementsByName('telefonForm')[0];
+    
+    ime.oninvalid = function(event) {
+        event.target.setCustomValidity('Ime lahko vsebuje samo male/velike črke!');
+    }
+    priimek.oninvalid = function(event) {
+        event.target.setCustomValidity('Priimek lahko vsebuje samo male/velike črke!');
+    }
+    naslov.oninvalid = function(event) {
+        event.target.setCustomValidity('Naslov lahko vsebuje samo male/velike črke,številke in presledke!');
+    }
+    telefon.oninvalid = function(event) {
+        event.target.setCustomValidity('Telefon mora biti oblike 111222333');
+    }
 </script>

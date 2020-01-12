@@ -2,9 +2,9 @@
 
 <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 <meta charset="UTF-8" />
-<title>Add prodajalec</title>
+<title>Dodaj prodajalca</title>
 
-<h1>Add prodajalec</h1>
+<h1>Dodaj prodajalca</h1>
 
 <p>[
 <?php if(isset($_SESSION["vloga"]) and $_SESSION["vloga"] == "administrator" ) { ?>
@@ -47,10 +47,22 @@
 ]</p>
 
 <form action="<?= BASE_URL . "prodajalci/add" ?>" method="post">
-    <p><label>Ime: <input type="text" name="ime" value="<?= $ime ?>" autofocus /></label></p>
-    <p><label>Priimek: <input type="text" name="priimek" value="<?= $priimek ?>" /></label></p>
-    <p><label>Email: <input type="email" name="email" value="<?= $email ?>" /></label></p>
-    <p><label>Geslo: <input type="password" name="geslo" value="<?= $geslo ?>" /></label></p>
+    <p><label>Ime: <input type="text" name="ime" oninput="setCustomValidity('')" pattern="[A-Za-zčćžš]+" value="<?= $ime ?>" autofocus required/></label></p>
+    <p><label>Priimek: <input type="text" name="priimek" oninput="setCustomValidity('')" pattern="[A-Za-zčćžš]+" value="<?= $priimek ?>" required/></label></p>
+    <p><label>Email: <input type="email" name="email" value="<?= $email ?>" required/></label></p>
+    <p><label>Geslo: <input type="password" name="geslo" value="<?= $geslo ?>" required /></label></p>
     <p><button>Dodaj</button></p>
 </form>
+
+<script type="text/javascript">
+    var ime = document.getElementsByName('ime')[0];
+    var priimek = document.getElementsByName('priimek')[0];
+    
+    ime.oninvalid = function(event) {
+        event.target.setCustomValidity('Ime lahko vsebuje samo male/velike črke!');
+    }
+    priimek.oninvalid = function(event) {
+        event.target.setCustomValidity('Priimek lahko vsebuje samo male/velike črke!');
+    }
+</script>
 

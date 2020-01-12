@@ -41,13 +41,12 @@ class StrankaDB {
             return null;
         }
     }
-     public static function getLogin($email, $geslo) {
+     public static function getLogin($email) {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT id, ime, priimek, email, naslov, telefon, geslo, status FROM stranka
-            WHERE email = :email AND geslo = :geslo");
+            WHERE email = :email");
         $statement->bindParam(":email", $email);
-        $statement->bindParam(":geslo", $geslo);
         $statement->execute();
 
         $stranka = $statement->fetch();

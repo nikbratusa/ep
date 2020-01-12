@@ -11,7 +11,7 @@ class StoreController {
 
     public static function index() {
         $vars = [
-            "shoes" => ShoeDB::getAll(),
+            "shoes" => ShoeDB::getAllActive(),
             "cart" => Cart::getAll(),
             "total" => Cart::total()
         ];
@@ -20,6 +20,10 @@ class StoreController {
     }
     
     public static function prijava() {
+        if (!isset($_SERVER["HTTPS"])) {
+                $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+                header("Location: " . $url);
+        }
         ViewHelper::render("view/prijava.php");
     }
     
@@ -31,87 +35,110 @@ class StoreController {
     
     public static function prijavaPreveri() {
         $email = $_POST['emailForm'];
-        $geslo = $_POST['gesloForm'];
         $poglejProdajalec = false;
         $poglejStranka = false;
         $napaka = false;
         
-        $admin = AdministratorDB::getLogin($email, $geslo);
+        $admin = AdministratorDB::getLogin($email);
         if($admin == null){
            $poglejProdajalec = true;
         }
         else{
-            $vars = [
-                "shoes" => ShoeDB::getAll(),
-                "cart" => Cart::getAll(),
-                "total" => Cart::total()
-            ];
-            $_SESSION["ime"] = $admin["ime"];
-            $_SESSION["priimek"] = $admin["priimek"];
-            $_SESSION["email"] = $admin["email"];
-            $_SESSION["geslo"] = $admin["geslo"];
-            $_SESSION["id"] = $admin["id"];
-            $_SESSION["vloga"] = "administrator";
-            ViewHelper::redirect(BASE_URL . "shoe", $vars);
+            if(password_verify($_POST['gesloForm'], $admin["geslo"])){
+                $vars = [
+                    "shoes" => ShoeDB::getAll(),
+                    "cart" => Cart::getAll(),
+                    "total" => Cart::total()
+                ];
+                $_SESSION["ime"] = $admin["ime"];
+                $_SESSION["priimek"] = $admin["priimek"];
+                $_SESSION["email"] = $admin["email"];
+                $_SESSION["geslo"] = $admin["geslo"];
+                $_SESSION["id"] = $admin["id"];
+                $_SESSION["vloga"] = "administrator";
+                ViewHelper::redirect(BASE_URL . "shoe", $vars);
+            }
+            else{
+                $poglejProdajalec = true;
+            }
         }
         if($poglejProdajalec){
-            $prodajalec = ProdajalecDB::getLogin($email, $geslo);
+            $prodajalec = ProdajalecDB::getLogin($email);
             if($prodajalec == null){
                 $poglejStranka = true;
             }
             else{
-                $vars = [
-                    "shoes" => ShoeDB::getAll(),
-                    "cart" => Cart::getAll(),
-                    "total" => Cart::total()
-                ];
-                $_SESSION["ime"] = $prodajalec["ime"];
-                $_SESSION["priimek"] = $prodajalec["priimek"];
-                $_SESSION["email"] = $prodajalec["email"];
-                $_SESSION["geslo"] = $prodajalec["geslo"];
-                $_SESSION["id"] = $prodajalec["id"];
-                $_SESSION["status"] = $prodajalec["status"];
-                $_SESSION["vloga"] = "prodajalec";
-                ViewHelper::redirect(BASE_URL . "shoe", $vars);
+                if(password_verify($_POST['gesloForm'], $prodajalec["geslo"]) and $prodajalec["status"] == "aktiviran"){
+                
+                    $vars = [
+                        "shoes" => ShoeDB::getAll(),
+                        "cart" => Cart::getAll(),
+                        "total" => Cart::total()
+                    ];
+                    $_SESSION["ime"] = $prodajalec["ime"];
+                    $_SESSION["priimek"] = $prodajalec["priimek"];
+                    $_SESSION["email"] = $prodajalec["email"];
+                    $_SESSION["geslo"] = $prodajalec["geslo"];
+                    $_SESSION["id"] = $prodajalec["id"];
+                    $_SESSION["status"] = $prodajalec["status"];
+                    $_SESSION["vloga"] = "prodajalec";
+                    ViewHelper::redirect(BASE_URL . "shoe", $vars);
+                }
+                else{
+                    $poglejStranka = true;
+                }
             } 
         }
         if($poglejStranka){
-            $stranka = StrankaDB::getLogin($email, $geslo);
+            $stranka = StrankaDB::getLogin($email);
             if($stranka == null){
                 $napaka = true;
             }
             else{
-                $vars = [
-                    "shoes" => ShoeDB::getAll(),
-                    "cart" => Cart::getAll(),
-                    "total" => Cart::total()
-                ];
-                $_SESSION["ime"] = $stranka["ime"];
-                $_SESSION["priimek"] = $stranka["priimek"];
-                $_SESSION["email"] = $stranka["email"];
-                $_SESSION["naslov"] = $stranka["naslov"];
-                $_SESSION["telefon"] = $stranka["telefon"];
-                $_SESSION["geslo"] = $stranka["geslo"];
-                $_SESSION["id"] = $stranka["id"];
-                $_SESSION["status"] = $stranka["status"];
-                $_SESSION["vloga"] = "stranka";
-                ViewHelper::redirect(BASE_URL . "store", $vars);
+                if(password_verify($_POST['gesloForm'], $stranka["geslo"]) and $stranka["status"] == "aktiviran"){
+                    $vars = [
+                        "shoes" => ShoeDB::getAll(),
+                        "cart" => Cart::getAll(),
+                        "total" => Cart::total()
+                    ];
+
+                    $_SESSION["ime"] = $stranka["ime"];
+                    $_SESSION["priimek"] = $stranka["priimek"];
+                    $_SESSION["email"] = $stranka["email"];
+                    $_SESSION["naslov"] = $stranka["naslov"];
+                    $_SESSION["telefon"] = $stranka["telefon"];
+                    $_SESSION["geslo"] = $stranka["geslo"];
+                    $_SESSION["id"] = $stranka["id"];
+                    $_SESSION["status"] = $stranka["status"];
+                    $_SESSION["vloga"] = "stranka";
+                    ViewHelper::redirect(BASE_URL . "store", $vars);
+                }
+                else{
+                    $napaka = true;
+                }
             } 
         }
         if($napaka){
-            ViewHelper::redirect(BASE_URL . "prijava");
+            $vars = [
+                    "napaka" => true
+                ];
+            ViewHelper::render("view/prijava.php", $vars);
         }    
     }
     
     public static function registracija() {
-       ViewHelper::render("view/registracija.php");
+        if (!isset($_SERVER["HTTPS"])) {
+                $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+                header("Location: " . $url);
+        }
+        ViewHelper::render("view/registracija.php");
     }
     
     public static function registracijaUstvari() {
         $ime = $_POST['imeForm'];
         $priimek = $_POST['priimekForm'];
         $email = $_POST['emailForm'];
-        $geslo = $_POST['gesloForm'];
+        $geslo = password_hash($_POST['gesloForm'], PASSWORD_DEFAULT);
         $vloga = $_POST['vlogaForm'];
         
         $vars = [
@@ -154,7 +181,7 @@ class StoreController {
        $ime = $_POST['imeForm'];
        $priimek = $_POST['priimekForm'];
        $email = $_POST['emailForm'];
-       $geslo = $_POST['gesloForm'];
+       $geslo = password_hash($_POST["gesloForm"], PASSWORD_DEFAULT);
        $id = $_POST['idForm'];
        $vloga = $_POST['vlogaForm'];
        
@@ -233,7 +260,7 @@ class StoreController {
                 isset($_POST["status"]) && !empty($_POST["status"]);
 
         if ($validData) {
-            ProdajalecDB::update($_POST["id"], $_POST["ime"], $_POST["priimek"], $_POST["email"], $_POST["geslo"], $_POST["status"]);
+            ProdajalecDB::update($_POST["id"], $_POST["ime"], $_POST["priimek"], $_POST["email"], password_hash($_POST["geslo"], PASSWORD_DEFAULT), $_POST["status"]);
             ViewHelper::redirect(BASE_URL . "prodajalci?id=" . $_POST["id"]);
         } else {
             self::showEditFormProdajalec($_POST);
@@ -276,7 +303,7 @@ class StoreController {
                 isset($_POST["geslo"]) && !empty($_POST["geslo"]);
 
         if ($validData) {
-            ProdajalecDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"], $_POST["geslo"]);
+            ProdajalecDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"], password_hash($_POST["geslo"], PASSWORD_DEFAULT));
             ViewHelper::redirect(BASE_URL . "prodajalci");
         } else {
             self::showAddFormProdajalec($_POST);
@@ -301,7 +328,7 @@ class StoreController {
                 isset($_POST["status"]) && !empty($_POST["status"]);
 
         if ($validData) {
-            StrankaDB::update($_POST["id"], $_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], $_POST["geslo"], $_POST["status"]);
+            StrankaDB::update($_POST["id"], $_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], password_hash($_POST["geslo"], PASSWORD_DEFAULT), $_POST["status"]);
             ViewHelper::redirect(BASE_URL . "stranke?id=" . $_POST["id"]);
         } else {
             self::showEditFormStranka($_POST);
@@ -330,7 +357,7 @@ class StoreController {
                 isset($_POST["geslo"]) && !empty($_POST["geslo"]);
 
         if ($validData) {
-            StrankaDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], $_POST["geslo"]);
+            StrankaDB::insert($_POST["ime"], $_POST["priimek"], $_POST["email"],$_POST["naslov"],$_POST["telefon"], password_hash($_POST["geslo"], PASSWORD_DEFAULT));
             ViewHelper::redirect(BASE_URL . "stranke");
         } else {
             self::showAddForm($_POST);

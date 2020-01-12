@@ -51,10 +51,10 @@
     if($number > 0)  {  
         for($i=0; $i<$number; $i++){ ?>
         <ul>
-            <li>Brand: <b><?= $shoes[$i]["brand"] ?></b></li>
-            <li>Name: <b><?= $shoes[$i]["name"] ?></b></li>
-            <li>Price: <b><?= $shoes[$i]["price"] ?> EUR</b></li>
-            <li>Size: <b><?= $shoes[$i]["size"] ?></b></li>
+            <li>Brand: <b><?= htmlspecialchars($shoes[$i]["brand"]) ?></b></li>
+            <li>Name: <b><?= htmlspecialchars($shoes[$i]["name"]) ?></b></li>
+            <li>Price: <b><?= htmlspecialchars($shoes[$i]["price"]) ?> EUR</b></li>
+            <li>Size: <b><?= htmlspecialchars($shoes[$i]["size"]) ?></b></li>
             <li>Quantity: <b><?= $izdelki[$i]["kolicina"]?></b></li>
         </ul>
         <?php } ?>

@@ -49,8 +49,8 @@
 
 <ul>
     <?php foreach ($prodajalci as $p): ?>
-        <li><a href="<?= BASE_URL . "prodajalci?id=" . $p["id"] ?>"><?= $p["ime"] ?> 
-        	<?= $p["priimek"] ?> (<?= $p["email"] ?>), <?= $p["status"] ?></a></li>
+        <li><a href="<?= BASE_URL . "prodajalci?id=" . $p["id"] ?>"><?= htmlspecialchars($p["ime"]) ?> 
+        	<?= htmlspecialchars($p["priimek"]) ?> (<?= htmlspecialchars($p["email"]) ?>), <?= $p["status"] ?></a></li>
     <?php endforeach; ?>
 
 </ul>

@@ -42,13 +42,12 @@ class AdministratorDB {
         }
     }
     
-    public static function getLogin($email, $geslo) {
+    public static function getLogin($email) {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT id, ime, priimek, email, geslo FROM administrator 
-            WHERE email = :email AND geslo = :geslo");
+            WHERE email = :email");
         $statement->bindParam(":email", $email);
-        $statement->bindParam(":geslo", $geslo);
         $statement->execute();
 
         $admin = $statement->fetch();

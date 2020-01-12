@@ -46,6 +46,9 @@
 <?php } ?>
 ]</p>
 
+<?php if(isset($napaka)) { ?>
+    <p>Nepravilen email/geslo ali neaktiviran uporabnik. Poskusite ponovno.<p>
+<?php } ?>
 <div id="main">
    <form action="<?= BASE_URL . "prijavaPreveri" ?>" method="post">
         <p><label>Email: <input type="email" name="emailForm" required/></label></p>

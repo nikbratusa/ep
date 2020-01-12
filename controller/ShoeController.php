@@ -48,10 +48,11 @@ class ShoeController {
                 isset($_POST["name"]) && !empty($_POST["name"]) &&
                 isset($_POST["price"]) && !empty($_POST["price"]) &&
                 isset($_POST["size"]) && !empty($_POST["size"]) &&
+                isset($_POST["status"]) && !empty($_POST["status"]) &&
                 isset($_POST["id"]) && !empty($_POST["id"]);
 
         if ($validData) {
-            ShoeDB::update($_POST["id"], $_POST["brand"], $_POST["name"], $_POST["price"], $_POST["size"]);
+            ShoeDB::update($_POST["id"], $_POST["brand"], $_POST["name"], $_POST["price"], $_POST["size"], $_POST["status"]);
             ViewHelper::redirect(BASE_URL . "shoe?id=" . $_POST["id"]);
         } else {
             self::showEditForm($_POST);
